@@ -1,0 +1,145 @@
+/* ── Reset & foundations ───────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-gold);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--c-gold);
+  color: var(--c-btn-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Typography ────────────────────────────── */
+
+.t-display {
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' var(--wdth-display);
+  font-weight: var(--wght-display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.t-eyebrow {
+  font-family: var(--f-body);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--c-gold);
+}
+
+.t-body-2 {
+  color: var(--c-ink-2);
+}
+
+/* Serif emphasis inside an architectural headline: the NEURA-style
+   tension between structure and emotion, in our own voice. */
+.t-em {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-variation-settings: normal;
+  font-weight: 550;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 1.14em;
+  line-height: 1;
+  color: var(--c-gold-3);
+}
+
+/* ── Layout primitives ─────────────────────── */
+
+.container {
+  max-width: var(--w-container);
+  margin-inline: auto;
+  padding-inline: var(--sp-gutter);
+}
+
+.section {
+  padding-block: var(--sp-section);
+}
+
+/* ── Utilities ─────────────────────────────── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: var(--z-skip);
+  padding: 0.75em 1.25em;
+  background: var(--c-bg);
+  border: 1px solid var(--c-gold);
+  font-size: var(--fs-small);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}

@@ -1,0 +1,855 @@
+/* ══════════════════════════════════════════════
+   NAV
+   ══════════════════════════════════════════════ */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-nav);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  transition: background-color var(--t-med) var(--e-soft),
+              border-color var(--t-med) var(--e-soft);
+  border-bottom: 1px solid transparent;
+}
+
+.nav--solid {
+  background: rgba(13, 12, 11, 0.86);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--c-line);
+}
+
+.nav__inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Brand mark mirrors the logo: bold glowing LED, quiet tracked BALDAI. */
+.nav__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--f-display);
+  font-size: 0.9375rem;
+  text-transform: uppercase;
+}
+
+.nav__brand-led {
+  font-variation-settings: 'wdth' 118;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--c-gold-2);
+  text-shadow: 0 0 16px rgba(184, 146, 90, 0.45);
+}
+
+.nav__brand-rest {
+  font-variation-settings: 'wdth' 112;
+  font-weight: 450;
+  font-size: 0.8125rem;
+  letter-spacing: 0.3em;
+  color: var(--c-ink);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.nav__link {
+  position: relative;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--c-ink-2);
+  transition: color var(--t-fast) var(--e-soft);
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.4em;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--c-gold), rgba(184, 146, 90, 0.2));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--e-out);
+}
+
+@media (hover: hover) {
+  .nav__link:hover {
+    color: var(--c-ink);
+  }
+
+  .nav__link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.nav__phone {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--t-fast) var(--e-soft);
+}
+
+.nav__phone:hover {
+  color: var(--c-gold-2);
+}
+
+/* ══════════════════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 1.05em 2.2em;
+  font-family: var(--f-body);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.4s var(--e-soft),
+              border-color 0.4s var(--e-soft),
+              color 0.4s var(--e-soft),
+              transform 0.45s var(--e-out),
+              box-shadow 0.45s var(--e-out);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Brushed gold: a quiet metal gradient with a machined top edge.
+   The glow appears only on hover, like an LED warming up. */
+.btn--primary {
+  background: linear-gradient(165deg, #CDA76E 0%, #B8925A 55%, #9F7D4A 100%);
+  color: var(--c-btn-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22),
+              0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+.btn--ghost {
+  border: 1px solid rgba(244, 239, 232, 0.38);
+  color: var(--c-ink);
+  background: rgba(13, 12, 11, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+@media (hover: hover) {
+  .btn--primary:hover {
+    background: linear-gradient(165deg, #DCB67D 0%, #C7A067 55%, #AB8853 100%);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26),
+                0 12px 32px rgba(184, 146, 90, 0.3);
+  }
+
+  .btn--ghost:hover {
+    border-color: var(--c-gold);
+    color: var(--c-gold-3);
+    background: rgba(13, 12, 11, 0.34);
+    transform: translateY(-2px);
+  }
+}
+
+/* ══════════════════════════════════════════════
+   HERO — pinned video story
+   ══════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  height: 100dvh;
+  background: var(--c-bg);
+}
+
+.hero__stage {
+  position: relative;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: clip;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__video,
+.hero__still {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layered cinematic scrim: a diagonal column for the headline, a base
+   gradient for the CTAs, a light top band for the nav, and a faint warm
+   radial near the text, like spill from an LED strip. The frame's
+   center stays clear so the video keeps its atmosphere. */
+.hero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(46% 42% at 16% 74%, rgba(184, 146, 90, 0.1), transparent 72%),
+    linear-gradient(105deg, rgba(13, 12, 11, 0.78) 0%, rgba(13, 12, 11, 0.42) 34%, rgba(13, 12, 11, 0) 62%),
+    linear-gradient(to top, rgba(13, 12, 11, 0.86) 0%, rgba(13, 12, 11, 0.38) 32%, rgba(13, 12, 11, 0) 58%),
+    linear-gradient(to bottom, rgba(13, 12, 11, 0.5) 0%, rgba(13, 12, 11, 0) 16%);
+}
+
+.hero__content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: clamp(3rem, 9vh, 6rem);
+}
+
+.hero__intro {
+  max-width: 56rem;
+}
+
+/* Location label: a short strand of gold light, then clear caps.
+   Crisp double shadow keeps it legible on the brightest frames. */
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.24em;
+  font-weight: 650;
+  color: var(--c-gold-3);
+  text-shadow: 0 1px 3px rgba(13, 12, 11, 0.95),
+               0 2px 18px rgba(13, 12, 11, 0.75);
+}
+
+.hero__eyebrow::before {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--c-gold-2), transparent);
+  box-shadow: 0 0 8px rgba(184, 146, 90, 0.5);
+}
+
+.hero__title {
+  font-size: var(--fs-hero);
+  margin-bottom: 1.75rem;
+  text-shadow: 0 2px 28px rgba(13, 12, 11, 0.4);
+}
+
+.hero__line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero__line > span {
+  display: block;
+}
+
+/* The editorial counterpoint: an elegant serif italic answering the
+   architectural caps. The emotional voice of the typography system. */
+.hero__line--italic > span {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-variation-settings: normal;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.008em;
+  font-size: 1.08em;
+  line-height: 1.2;
+  padding-bottom: 0.08em;
+  color: #E2D9CB;
+}
+
+.hero__sub {
+  max-width: 32rem;
+  font-size: calc(var(--fs-body) * 1.08);
+  line-height: 1.7;
+  color: var(--c-ink);
+  opacity: 0.88;
+  margin-bottom: 2.75rem;
+  text-shadow: 0 1px 12px rgba(13, 12, 11, 0.5);
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Scroll-story captions, sequenced by GSAP */
+.hero__captions {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: end;
+  pointer-events: none;
+  padding-bottom: clamp(3.5rem, 10vh, 7rem);
+}
+
+/* The slogan lands in the serif voice: the most emotional line on
+   the page gets the most emotional typography. */
+.hero__caption {
+  grid-area: 1 / 1;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-variation-settings: normal;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.18;
+  font-size: calc(var(--fs-caption) * 1.12);
+  max-width: 17ch;
+  opacity: 0;
+  visibility: hidden;
+  text-shadow: 0 2px 26px rgba(13, 12, 11, 0.55);
+}
+
+/* Story progress: a single hairline of light at the right edge.
+   Travels with the section. Desktop scrub mode only. */
+.hero__progress {
+  display: none;
+  position: absolute;
+  right: var(--sp-gutter);
+  bottom: clamp(3.5rem, 10vh, 7rem);
+  width: 1px;
+  height: 6.5rem;
+  background: rgba(244, 239, 232, 0.14);
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  .hero__progress {
+    display: block;
+  }
+}
+
+.hero__progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--c-gold-2);
+  box-shadow: 0 0 10px rgba(184, 146, 90, 0.5);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+/* ══════════════════════════════════════════════
+   SERVICES
+   ══════════════════════════════════════════════ */
+
+.services {
+  padding-bottom: clamp(1.5rem, 3vh, 2.5rem);
+}
+
+.services__head {
+  max-width: 44rem;
+  margin-bottom: clamp(2.25rem, 5vh, 3.5rem);
+}
+
+.services__eyebrow {
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+/* Two editorial voices in one headline: expanded caps answered
+   by a light italic, the architectural-magazine counterpoint. */
+.services__title {
+  font-size: var(--fs-h2);
+}
+
+.services__title-caps {
+  display: block;
+}
+
+.services__title-italic {
+  display: block;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-variation-settings: normal;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.008em;
+  font-size: 1.05em;
+  line-height: 1.28;
+  padding-bottom: 0.14em; /* serif italic descender clearance (į, ų) */
+  color: var(--c-ink-2);
+}
+
+/* The featured service: a secondary hero, not a card. Shares the
+   exact hover language of the service rows below. */
+.services__featured {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  padding-block: clamp(2.5rem, 6vh, 4rem);
+  border-top: 1px solid var(--c-line);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.services__featured::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--c-gold) 0%, rgba(184, 146, 90, 0.18) 62%, transparent 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s var(--e-out);
+}
+
+.services__featured::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(130% 220% at 0% 50%, rgba(184, 146, 90, 0.08), transparent 52%);
+  opacity: 0;
+  transition: opacity 0.8s var(--e-soft);
+}
+
+.services__featured-name {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-variation-settings: 'wdth' 104;
+  font-weight: 450;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  transform-origin: left center;
+  transition: color 0.5s var(--e-soft), transform 0.7s var(--e-out);
+}
+
+.services__featured-text {
+  color: var(--c-ink-2);
+  max-width: 30rem;
+}
+
+@media (hover: hover) {
+  .services__featured:hover::before {
+    transform: scaleX(1);
+  }
+
+  .services__featured:hover::after {
+    opacity: 1;
+  }
+
+  .services__featured:hover .services__featured-name {
+    color: var(--c-gold-2);
+    transform: translateX(10px) scale(1.02);
+  }
+}
+
+/* The photo lives in a clipped frame. The canvas inside drifts a few
+   percent against the scroll (parallax depth); the image itself owns
+   the slow hover zoom, so the two motions never conflict. */
+.services__featured-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.services__featured-canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -7%;
+  height: 114%;
+  will-change: transform;
+}
+
+.services__featured-canvas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.8s var(--e-soft);
+}
+
+/* A strand of warm LED light that glides across the surface on hover,
+   like a reflection moving over lacquered wood. */
+.services__featured-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 32%,
+    rgba(230, 205, 158, 0.13) 47%,
+    rgba(255, 248, 235, 0.2) 51%,
+    rgba(230, 205, 158, 0.11) 55%,
+    transparent 70%
+  );
+  transform: translateX(-135%);
+}
+
+@media (hover: hover) {
+  .services__featured:hover .services__featured-canvas img {
+    transform: scale(1.045);
+  }
+
+  .services__featured:hover .services__featured-media::after {
+    transform: translateX(135%);
+    transition: transform 1.5s var(--e-soft);
+  }
+}
+
+.services__list {
+  /* The featured block's bottom hairline opens the list. */
+}
+
+.services__row {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1rem, 4vw, 5rem);
+  align-items: baseline;
+  padding-block: clamp(1.75rem, 3.6vh, 2.5rem);
+  border-bottom: 1px solid var(--c-line);
+  position: relative;
+}
+
+/* Gold hairline: a streak of light, not a solid bar. */
+.services__row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--c-gold) 0%, rgba(184, 146, 90, 0.18) 62%, transparent 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s var(--e-out);
+}
+
+/* Soft architectural glow: warm light washing in from the left,
+   like under-cabinet LED lighting. */
+.services__row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(130% 220% at 0% 50%, rgba(184, 146, 90, 0.08), transparent 52%);
+  opacity: 0;
+  transition: opacity 0.8s var(--e-soft);
+}
+
+.services__row-name {
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 104;
+  font-weight: 440;
+  font-size: var(--fs-row);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  transform-origin: left center;
+  transition: color 0.5s var(--e-soft), transform 0.7s var(--e-out);
+}
+
+/* Row descriptions share the exact typography of the featured
+   description: same size, weight, leading and color. Equal voice. */
+.services__row-text {
+  color: var(--c-ink-2);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: normal;
+  max-width: 36rem;
+}
+
+@media (hover: hover) {
+  .services__row:hover::before {
+    transform: scaleX(1);
+  }
+
+  .services__row:hover::after {
+    opacity: 1;
+  }
+
+  .services__row:hover .services__row-name {
+    color: var(--c-gold-2);
+    transform: translateX(10px) scale(1.02);
+  }
+}
+
+/* ══════════════════════════════════════════════
+   STATEMENT
+   ══════════════════════════════════════════════ */
+
+/* A quiet band of commitments, sitting close under the service list. */
+.statement {
+  text-align: center;
+  padding-top: clamp(1.5rem, 3vh, 2.5rem);
+  padding-bottom: calc(var(--sp-section) * 0.5);
+}
+
+.statement__facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.statement__fact {
+  font-size: var(--fs-small);
+  color: var(--c-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════
+   CONTACT
+   ══════════════════════════════════════════════ */
+
+.contact {
+  border-top: 1px solid var(--c-line-gold);
+  background: var(--c-bg-2);
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
+}
+
+/* The invitation matches the number: same architectural voice,
+   same scale. Two equal statements facing each other. */
+.contact__title {
+  font-variation-settings: 'wdth' 110;
+  font-weight: 560;
+  /* A notch under the number so the word always fits its column. */
+  font-size: calc(var(--fs-phone) * 0.92);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin-bottom: 1.25rem;
+}
+
+.contact__lead {
+  color: var(--c-ink-2);
+  max-width: 24rem;
+}
+
+/* Number and WhatsApp as one centred column: the number leads,
+   the channel sits quietly beneath it. */
+.contact__channel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+/* The number carries a slow strand of gold light passing over it,
+   like a reflection moving across brushed metal. On hover it answers
+   exactly like the WhatsApp button: soft lift, gold warmth. */
+@property --phone-base {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #F4EFE8;
+}
+
+.contact__phone {
+  --phone-base: #F4EFE8;
+  display: inline-block;
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 110;
+  font-weight: 560;
+  font-size: var(--fs-phone);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(
+    105deg,
+    var(--phone-base) 0%,
+    var(--phone-base) 38%,
+    var(--c-gold-2) 47%,
+    #FFF4DF 50%,
+    var(--c-gold-2) 53%,
+    var(--phone-base) 62%,
+    var(--phone-base) 100%
+  );
+  background-size: 260% 100%;
+  background-position: 115% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: phone-shimmer 6s ease-in-out infinite;
+  transition: --phone-base 0.4s var(--e-soft),
+              transform 0.45s var(--e-out);
+}
+
+@media (hover: hover) {
+  .contact__phone:hover {
+    --phone-base: var(--c-gold-3);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes phone-shimmer {
+  0%, 42% {
+    background-position: 115% 0;
+  }
+  72%, 100% {
+    background-position: -55% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__phone {
+    animation: none;
+    background: none;
+    color: var(--c-ink);
+  }
+}
+
+.contact__actions {
+  display: flex;
+  justify-content: center;
+}
+
+.btn--wa svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* ══════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════ */
+
+.footer {
+  border-top: 1px solid var(--c-line);
+  padding-block: 2.5rem;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: var(--fs-small);
+  color: var(--c-muted);
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--f-display);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════
+   REVEAL PRIMITIVES (driven by GSAP)
+   ══════════════════════════════════════════════ */
+
+.js .reveal,
+.js .services__row,
+.js .statement__fact,
+.js .contact__lead,
+.js .contact__phone,
+.js .contact__actions,
+.js .footer__inner {
+  opacity: 0;
+}
+
+.js .reveal-img {
+  clip-path: inset(0 0 100% 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal,
+  .js .services__row,
+  .js .statement__fact,
+  .js .contact__lead,
+  .js .contact__phone,
+  .js .contact__actions,
+  .js .footer__inner {
+    opacity: 1;
+  }
+
+  .js .reveal-img {
+    clip-path: none;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   MOBILE — intentional, not compressed
+   ══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .nav {
+    height: 64px;
+  }
+
+  /* Taller text zone on portrait screens needs a deeper scrim. */
+  .hero__media::after {
+    background:
+      linear-gradient(to top, rgba(13, 12, 11, 0.9) 0%, rgba(13, 12, 11, 0.55) 40%, rgba(13, 12, 11, 0) 76%),
+      linear-gradient(to bottom, rgba(13, 12, 11, 0.6) 0%, rgba(13, 12, 11, 0) 20%);
+  }
+
+  .nav__links .nav__link {
+    display: none;
+  }
+
+  .hero__content {
+    justify-content: flex-end;
+    padding-bottom: 3.5rem;
+  }
+
+  .hero__sub {
+    margin-bottom: 2rem;
+  }
+
+  .hero__cta .btn {
+    flex: 1 1 100%;
+  }
+
+  .hero__captions {
+    display: none;
+  }
+
+  .services__featured,
+  .services__row,
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services__featured {
+    gap: 2rem;
+  }
+
+  .services__featured-media {
+    order: -1;
+  }
+
+  .services__row {
+    gap: 0.5rem;
+  }
+
+  .statement__facts {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .contact__phone {
+    word-break: keep-all;
+  }
+}
