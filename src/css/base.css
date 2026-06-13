@@ -11,6 +11,11 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Horizontal-overflow guard lives on the root scroller, not on body,
+     so it never turns body into a scroll container that would break the
+     mobile hero's position: sticky (a known overflow:clip + sticky bug
+     on mobile Safari). */
+  overflow-x: clip;
 }
 
 body {
@@ -21,7 +26,20 @@ body {
   font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
+}
+
+/* Atmospheric depth: two faint warm glows fixed behind the page so the
+   dark sections never read as flat. Composited (own layer), no scroll
+   repaint cost. Sits behind all content; the hero video covers it. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 42% at 88% 6%, rgba(184, 146, 90, 0.06), transparent 60%),
+    radial-gradient(58% 52% at 4% 84%, rgba(184, 146, 90, 0.045), transparent 62%);
 }
 
 img,

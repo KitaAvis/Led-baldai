@@ -221,29 +221,6 @@
   max-width: 56rem;
 }
 
-/* Location label: a short strand of gold light, then clear caps.
-   Crisp double shadow keeps it legible on the brightest frames. */
-.hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  margin-bottom: 1.75rem;
-  font-size: 0.8125rem;
-  letter-spacing: 0.24em;
-  font-weight: 650;
-  color: var(--c-gold-3);
-  text-shadow: 0 1px 3px rgba(13, 12, 11, 0.95),
-               0 2px 18px rgba(13, 12, 11, 0.75);
-}
-
-.hero__eyebrow::before {
-  content: '';
-  width: 2.25rem;
-  height: 1px;
-  background: linear-gradient(90deg, var(--c-gold-2), transparent);
-  box-shadow: 0 0 8px rgba(184, 146, 90, 0.5);
-}
-
 .hero__title {
   font-size: var(--fs-hero);
   margin-bottom: 1.75rem;
@@ -296,26 +273,41 @@
   inset: 0;
   display: grid;
   align-items: end;
+  justify-items: start; /* slogan sits lower-left, never dead centre */
   pointer-events: none;
   padding-bottom: clamp(3.5rem, 10vh, 7rem);
 }
 
 /* The slogan lands in the serif voice: the most emotional line on
    the page gets the most emotional typography. */
+/* The closing slogan: a quiet luxury-magazine quote, lower-left, sized
+   with restraint. Each line reveals on its own (see scroll.js). */
 .hero__caption {
   grid-area: 1 / 1;
+  margin: 0;
   font-family: var(--f-serif);
   font-style: italic;
   font-variation-settings: normal;
   font-weight: 500;
   text-transform: none;
-  letter-spacing: 0.01em;
-  line-height: 1.18;
-  font-size: calc(var(--fs-caption) * 1.12);
-  max-width: 17ch;
+  letter-spacing: 0.006em;
+  line-height: 1.34;
+  font-size: clamp(1.5rem, 2.45vw, 2.3rem);
+  max-width: 20ch;
+  color: #F7F2EA;
+  /* Refined double shadow: a soft wide halo for contrast over bright
+     marble + a tight one for crisp edges. Keeps it legible on any frame
+     without a visible box. */
+  text-shadow: 0 2px 24px rgba(13, 12, 11, 0.85),
+               0 1px 3px rgba(13, 12, 11, 0.6);
+}
+
+.hero__caption-line {
+  display: block;
+}
+
+.js .hero__caption-line {
   opacity: 0;
-  visibility: hidden;
-  text-shadow: 0 2px 26px rgba(13, 12, 11, 0.55);
 }
 
 /* Story progress: a single hairline of light at the right edge.
@@ -424,6 +416,25 @@
   transition: opacity 0.8s var(--e-soft);
 }
 
+.services__featured-body {
+  position: relative;
+}
+
+/* Ghosted index numeral — an editorial chapter marker, brushed-gold
+   outline, atmospheric rather than loud. */
+.services__chapter {
+  display: block;
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 92;
+  font-weight: 600;
+  font-size: clamp(3.25rem, 7vw, 5.75rem);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(184, 146, 90, 0.38);
+  margin-bottom: 1.5rem;
+}
+
 .services__featured-name {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-variation-settings: 'wdth' 104;
@@ -516,12 +527,33 @@
 
 .services__row {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(1rem, 4vw, 5rem);
-  align-items: baseline;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1.25rem, 3.5vw, 3rem);
+  align-items: center;
   padding-block: clamp(1.75rem, 3.6vh, 2.5rem);
   border-bottom: 1px solid var(--c-line);
   position: relative;
+}
+
+/* Editorial index numeral, ghosted gold; fills in on hover. */
+.services__row-index {
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 92;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(184, 146, 90, 0.32);
+  transition: color 0.5s var(--e-soft);
+}
+
+.services__row-body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(0.5rem, 4vw, 5rem);
+  align-items: baseline;
 }
 
 /* Gold hairline: a streak of light, not a solid bar. */
@@ -581,9 +613,14 @@
     opacity: 1;
   }
 
+  .services__row:hover .services__row-index {
+    color: rgba(210, 180, 136, 0.9);
+    -webkit-text-stroke-color: transparent;
+  }
+
   .services__row:hover .services__row-name {
     color: var(--c-gold-2);
-    transform: translateX(10px) scale(1.02);
+    transform: translateX(8px) scale(1.015);
   }
 }
 
@@ -617,16 +654,40 @@
    ══════════════════════════════════════════════ */
 
 .contact {
+  position: relative;
+  overflow: hidden;
   border-top: 1px solid var(--c-line-gold);
   background: var(--c-bg-2);
 }
 
+/* The final chapter is embedded in atmosphere: the finished kitchen,
+   heavily darkened and vignetted, sits behind the closing invitation. */
+.contact__atmosphere {
+  position: absolute;
+  inset: 0;
+  background: url('/img/kitchen-final.jpg') center 38% / cover no-repeat;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.contact__atmosphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, var(--c-bg-2) 0%, transparent 34%, transparent 64%, var(--c-bg-2) 100%),
+    radial-gradient(85% 80% at 50% 46%, transparent 28%, rgba(13, 12, 11, 0.66) 100%);
+}
+
 .contact__grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: clamp(2.5rem, 6vw, 6rem);
   align-items: start;
 }
+
 
 /* The invitation matches the number: same architectural voice,
    same scale. Two equal statements facing each other. */
@@ -779,7 +840,8 @@
   .js .contact__lead,
   .js .contact__phone,
   .js .contact__actions,
-  .js .footer__inner {
+  .js .footer__inner,
+  .js .hero__caption-line {
     opacity: 1;
   }
 
@@ -797,36 +859,117 @@
     height: 64px;
   }
 
-  /* Taller text zone on portrait screens needs a deeper scrim. */
+  /* ── Mobile hero: sticky scroll-scrub, edge-to-edge video band ──
+     The stage is a grid: the video is a full-width band that fills all
+     space above the text (grid 1fr), and the text sits in the bottom row.
+     Because the video grows to fill the stage, it is far less zoomed than
+     a full-height cover, yet the stage is never empty — so there is no
+     void between the hero and Services. The slogan shares the text row
+     with the intro, replacing it in place. */
+  .hero {
+    height: 160vh;
+    --fs-hero: clamp(1.75rem, 8.2vw, 2.9rem); /* fits without awkward wrap to 320px */
+  }
+
+  /* Compact, editorial section rhythm on mobile (desktop keeps 16vh). */
+  :root {
+    --sp-section: clamp(3rem, 7vh, 4.5rem);
+  }
+
+  .hero__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    padding-top: 60px;
+  }
+
+  .hero__media {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    grid-column: 1;
+    min-height: 0; /* allow the band to size within the grid track */
+    overflow: hidden;
+  }
+
+  .hero__video,
+  .hero__still {
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  /* Scrim at the band's foot so the slogan stays clearly legible over
+     the bright finished-kitchen frame. */
   .hero__media::after {
-    background:
-      linear-gradient(to top, rgba(13, 12, 11, 0.9) 0%, rgba(13, 12, 11, 0.55) 40%, rgba(13, 12, 11, 0) 76%),
-      linear-gradient(to bottom, rgba(13, 12, 11, 0.6) 0%, rgba(13, 12, 11, 0) 20%);
+    display: block;
+    background: linear-gradient(
+      to top,
+      rgba(13, 12, 11, 0.94) 0%,
+      rgba(13, 12, 11, 0.62) 20%,
+      rgba(13, 12, 11, 0) 50%
+    );
   }
 
   .nav__links .nav__link {
     display: none;
   }
 
+  /* Intro stays in the bottom row the whole time (never fades), so the
+     text row never empties — no void can open before Services. */
   .hero__content {
-    justify-content: flex-end;
-    padding-bottom: 3.5rem;
+    position: relative;
+    height: auto;
+    grid-row: 2;
+    grid-column: 1;
+    justify-content: flex-start;
+    padding: 1.5rem var(--sp-gutter) 1.75rem;
+  }
+
+  /* The slogan reveals OVER the video band (grid row 1), the narrative
+     payoff landing lower-left on the finished kitchen. Override the
+     .container centring so it spans full width and sits left. */
+  .hero__captions {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    grid-column: 1;
+    align-items: end;
+    justify-items: start;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding: 0 var(--sp-gutter) 1.25rem;
+  }
+
+  .hero__title {
+    margin-bottom: 1rem;
   }
 
   .hero__sub {
-    margin-bottom: 2rem;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__cta {
+    gap: 0.75rem;
   }
 
   .hero__cta .btn {
     flex: 1 1 100%;
+    padding-block: 1.1em; /* comfortable 48px+ touch target */
   }
 
-  .hero__captions {
-    display: none;
+  .hero__caption {
+    font-size: clamp(1.3rem, 5.4vw, 1.7rem);
+    line-height: 1.36;
+    max-width: 13ch;
   }
 
   .services__featured,
-  .services__row,
   .contact__grid {
     grid-template-columns: 1fr;
   }
@@ -839,8 +982,16 @@
     order: -1;
   }
 
+  /* Index stays beside the row; name + text stack within the body. */
   .services__row {
-    gap: 0.5rem;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.1rem;
+    align-items: baseline;
+  }
+
+  .services__row-body {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
   }
 
   .statement__facts {
