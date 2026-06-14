@@ -31,7 +31,6 @@ export function initScroll({ video, reduced, mobile }) {
   }
 
   introReveal();
-  navState();
   headingReveals();
   textReveals();
   groupReveals();
@@ -60,16 +59,6 @@ function introReveal() {
     .from('.hero__sub', { autoAlpha: 0, y: 16, duration: 0.7 }, 0.6)
     .from('.hero__cta', { autoAlpha: 0, y: 16, duration: 0.7 }, 0.72)
     .from('.nav__inner', { autoAlpha: 0, duration: 0.9 }, 0.8);
-}
-
-/* Nav gains a solid backdrop once the page is in motion. */
-function navState() {
-  ScrollTrigger.create({
-    start: 90,
-    end: 'max',
-    onToggle: (self) =>
-      document.querySelector('.nav').classList.toggle('nav--solid', self.isActive),
-  });
 }
 
 /* Shared scrubber: drive video.currentTime toward the scroll target on

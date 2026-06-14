@@ -2,23 +2,26 @@
    NAV
    ══════════════════════════════════════════════ */
 
+/* Static header: sits at the very top of the page and scrolls away with
+   the content — never fixed, never sticky. A soft top-down scrim (which
+   scrolls away with it) keeps the logo and phone readable over the hero
+   video without a hard bar. */
 .nav {
-  position: fixed;
-  inset: 0 0 auto 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: var(--z-nav);
   height: 72px;
   display: flex;
   align-items: center;
-  transition: background-color var(--t-med) var(--e-soft),
-              border-color var(--t-med) var(--e-soft);
-  border-bottom: 1px solid transparent;
-}
-
-.nav--solid {
-  background: rgba(13, 12, 11, 0.86);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  border-bottom-color: var(--c-line);
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 12, 11, 0.72) 0%,
+    rgba(13, 12, 11, 0.32) 55%,
+    rgba(13, 12, 11, 0) 100%
+  );
+  pointer-events: none;
 }
 
 .nav__inner {
@@ -27,6 +30,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
+  pointer-events: auto; /* gradient layer ignores clicks; links don't */
 }
 
 /* Brand mark mirrors the logo: bold glowing LED, quiet tracked BALDAI. */
@@ -492,12 +496,27 @@
   transition: transform 1.8s var(--e-soft);
 }
 
+/* Embedding gradient: softly fades the image edges into the dark page so
+   it reads as art-directed into the layout, not a pasted rectangle. The
+   centre stays clear — clarity preserved. */
+.services__featured-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(13, 12, 11, 0.42) 0%, transparent 16%, transparent 80%, rgba(13, 12, 11, 0.5) 100%),
+    linear-gradient(to right, rgba(13, 12, 11, 0.28) 0%, transparent 11%, transparent 89%, rgba(13, 12, 11, 0.28) 100%);
+}
+
 /* A strand of warm LED light that glides across the surface on hover,
    like a reflection moving over lacquered wood. */
 .services__featured-media::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 3;
   pointer-events: none;
   background: linear-gradient(
     115deg,
@@ -902,16 +921,13 @@
     object-position: center 42%;
   }
 
-  /* Scrim at the band's foot so the slogan stays clearly legible over
-     the bright finished-kitchen frame. */
+  /* Foot scrim for slogan legibility + a soft top fade so the band's top
+     edge melts into the dark header area instead of a hard cut. */
   .hero__media::after {
     display: block;
-    background: linear-gradient(
-      to top,
-      rgba(13, 12, 11, 0.94) 0%,
-      rgba(13, 12, 11, 0.62) 20%,
-      rgba(13, 12, 11, 0) 50%
-    );
+    background:
+      linear-gradient(to top, rgba(13, 12, 11, 0.94) 0%, rgba(13, 12, 11, 0.62) 20%, rgba(13, 12, 11, 0) 50%),
+      linear-gradient(to bottom, rgba(13, 12, 11, 0.7) 0%, rgba(13, 12, 11, 0) 14%);
   }
 
   .nav__links .nav__link {
