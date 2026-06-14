@@ -28,9 +28,8 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  pointer-events: auto; /* gradient layer ignores clicks; links don't */
+  justify-content: flex-start; /* lone logo, left-aligned with hero content */
+  pointer-events: auto; /* gradient layer ignores clicks; the logo doesn't */
 }
 
 /* Brand mark mirrors the logo: bold glowing LED, quiet tracked BALDAI. */
@@ -478,6 +477,10 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 10;
+  /* Soft depth + a faint warm halo so the frame sits in the page's
+     atmosphere rather than floating as a hard rectangle on black. */
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.5),
+              0 0 90px 6px rgba(184, 146, 90, 0.05);
 }
 
 .services__featured-canvas {
